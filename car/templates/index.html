@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>驾考宝典首页</title>
+</head>
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        {% block content %}
+            <div class="container">
+                {% if username %}
+                    <h2>欢迎回来, {{ username }}!</h2>
+                {% else %}
+                    <div class="login">
+                        <a href="{% url 'car:login' %}"></a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endblock %}
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+    <div class="part">
+        <div class="part-study">
+          <hr class="hr">
+          <div class="title-text">学车流程</div>
+          <hr class="hr">
+        </div>
+        <div class="content">
+          <ul class="item clearfix">
+            <li class="icon1">
+                <div class="icon-bg" style="background-image: url('{% static 'images/icon1.png' %}');"></div><br><br>
+                <span class="title">找驾校</span>
+              <p>口碑好的驾校</p>
+            </li>
+            <li class="icon2"><a href="{% url 'car:keyi' %}" style="text-decoration: none;color: black">
+                <div class="icon-bg" style="background-image: url('{% static 'images/icon2.png' %}');"></div><br><br>
+                <span class="title">科目一</span>
+                <p>驾驶员理论考试</p></a>
+            </li>
+            <li class="icon3"><a href="{% url 'car:keer' %}" style="text-decoration: none;color: black">
+                <div class="icon-bg" style="background-image: url('{% static 'images/icon3.png' %}');"></div><br><br>
+                <span class="title">科目二</span>
+              <p>场地驾驶技能考试科目</p></a>
+            </li>
+            <li class="icon4"><a href="{% url 'car:kesan' %}" style="text-decoration: none;color: black">
+                <div class="icon-bg" style="background-image: url('{% static 'images/icon4.png' %}');"></div><br><br>
+                <span class="title">科目三</span>
+              <p>机动车驾驶人道路考试</p></a>
+            </li>
+            <li class="icon5"><a href="{% url 'car:kesi' %}" style="text-decoration: none;color: black">
+                <div class="icon-bg" style="background-image: url('{% static 'images/icon5.png' %}');"></div><br><br>
+                <span class="title">科目四</span>
+                <p>安全文明驾驶常识考试</p></a>
+            </li>
+            <li class="icon6">
+                <div class="icon-bg" style="background-image: url('{% static 'images/icon6.png' %}');"></div><br><br>
+                <span class="title">拿本</span>
+              <p>开心拿本，安全驾驶</p>
+            </li>
+          </ul>
+        </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('.icon1').hover(
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon1-2.png" %}")');
+        },
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon1.png" %}")');
+        }
+    );
+    $('.icon2').hover(
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon2-2.png" %}")');
+        },
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon2.png" %}")');
+        }
+    );
+    $('.icon3').hover(
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon3-2.png" %}")');
+        },
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon3.png" %}")');
+        }
+    );
+    $('.icon4').hover(
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon4-2.png" %}")');
+        },
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon4.png" %}")');
+        }
+    );
+    $('.icon5').hover(
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon5-2.png" %}")');
+        },
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon5.png" %}")');
+        }
+    );
+    $('.icon6').hover(
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon6-2.png" %}")');
+        },
+        function() {
+            $(this).find('.icon-bg').css('background-image', 'url("{% static "images/icon6.png" %}")');
+        }
+    );
+
+    // 为其他图标元素重复上述hover事件处理函数...
+});
+</script></body>

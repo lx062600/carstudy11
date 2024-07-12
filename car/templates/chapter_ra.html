@@ -1,0 +1,80 @@
+{% load static %}
+{% load custom %}
+<head>
+    {% csrf_token %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>驾考宝典首页</title>
+</head>
+<link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static '/css/sequential.css' %}">
+<link rel="stylesheet" href="{% static '/css/random.css' %}">
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static '/images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        <div class="login">
+            <a href="{% url 'car:login' %}"></a>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+    <div class='box'>
+        <p>{{  question_id }} /1500.{{ question_question }}</p>
+        <img src="{{ question_url }}" alt="">
+        {% for title, desc in options.items %}
+        <div class="option">
+            <input type="radio" id="{{ forloop.counter|number_to_letter }}" name="answer" data-title="{{ question_title }}" data-answer="{{ correct_answer }}" value="{{ forloop.counter|stringformat:'s' }}">
+            <label for="{{ forloop.counter|number_to_letter }}"> {{ title }}: {{ desc }}</label>
+        </div>
+    {% endfor %}
+    <button type="submit"  id="Submit" style="background-color: gray;color: white;">提交</button>
+    <div id="feedback" style="display: none;"></div>
+    <div id="skillExplain" style="display: none;"></div>
+    </div>
+    <div class="button">
+    <button onclick="window.location.href='{% url 'car:previous_question' %}'">上一题</button>
+    <button onclick="window.location.href='{% url 'car:next_question' %}'">下一题</button>
+    </div>
+<script>
+    document.getElementById('Submit').addEventListener('click', function(event) {
+    event.preventDefault(); // 阻止按钮的默认提交行为
+
+    var selectedRadio = document.querySelector('input[name="answer"]:checked');
+    if (!selectedRadio) {
+        alert('请选择一个答案！');
+        return;
+    }
+
+    var selectedAnswerId = selectedRadio.id;
+    var correctAnswer = selectedRadio.dataset.answer;
+    var questionTitle = selectedRadio.dataset.title;
+    var feedbackElement = document.getElementById('feedback');
+    var skillExplainElement = document.getElementById('skillExplain');
+    var nextUrl = '{% url "car:next_question" %}';
+    if (selectedAnswerId === correctAnswer) {
+        feedbackElement.textContent = '回答正确！';
+        feedbackElement.style.display = 'block';
+        setTimeout(function() {
+            window.location.href = nextUrl;
+        }, 500);
+    } else {
+        var correctAnswerElement = document.createElement('p');
+        correctAnswerElement.textContent = ' 错误！';
+        feedbackElement.appendChild(correctAnswerElement);
+        feedbackElement.style.display = 'block';
+        var skillExplainText = '正确答案是：' + correctAnswer + '。' + '{{ skill_explain }}';
+        skillExplainElement.textContent = skillExplainText;
+        skillExplainElement.style.display = 'block';
+    }
+});
+</script>
+</body>

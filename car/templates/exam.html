@@ -1,0 +1,124 @@
+{% load static %}
+{% load custom %}
+<head>
+    <meta charset="UTF-8">
+    <title>exam</title>
+</head>
+<body>
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/exam.css' %}">
+<header>
+        <div class="logo">
+            <img src="{% static '/images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        <div class="login">
+            <a href="{% url 'car:login' %}"></a>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+{% if question %}
+    <div class="timu">
+        <p>{{ current_le }} / {{ total_questions }}.{{ question.question }}</p>
+        <img src="{{ question.url }}" alt="">
+        {% for title, desc in options.items %}
+            <div class="option">
+                <input type="radio" id="{{ forloop.counter|number_to_letter }}" data-answer="{{ question_answer }}" name="answer">
+                <label for="{{ forloop.counter|number_to_letter }}">{{ title }}: {{ desc }}</label>
+            </div>
+        {% endfor %}
+        <button id="Submit">提交</button>
+        <div id="feedback" style="display: none;"></div>
+        <div id="skillExplain" style="display: none;"></div>
+        <div id="question-navigation">
+            <button onclick="goToQuestion({{ prev_le }})">上一题</button>
+            <button onclick="goToQuestion({{ next_le }})">下一题</button>
+        </div>
+    </div>
+    <div id="question-list">
+    <p id="correct-count">分数: 0</p>
+        <table>
+            {% for row in question_numbers %}
+            <tr>
+                {% for le in row %}
+                    {% if le == current_le %}
+                        <td class="active" data-question-number="{{ le }}">{{ le }}</td>
+                    {% else %}
+                        <td onclick="goToQuestion({{ le }})" data-question-number="{{ le }}">{{ le }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+        {% endif %}
+
+<script>
+    var correctCount = 0;
+
+    function updateCorrectCountDisplay() {
+        var storedCount = localStorage.getItem('correctCount') || 0;
+        correctCount = parseInt(storedCount, 10);
+        document.getElementById('correct-count').textContent = '分数  : ' + correctCount;
+    }
+    function clearCorrectCount() {
+        localStorage.removeItem('correctCount');
+        updateCorrectCountDisplay();
+    }
+
+    var clearCountInterval = setInterval(clearCorrectCount, 60 * 60 * 1000);
+
+    updateCorrectCountDisplay();
+
+    window.addEventListener('DOMContentLoaded', updateCorrectCountDisplay);
+    function goToQuestion(le) {
+        var queryString = '?le=' + le;
+        window.location.href = window.location.href.split('?')[0] + queryString;
+    };
+
+    document.getElementById('Submit').addEventListener('click', function(event) {
+    event.preventDefault(); // 阻止按钮的默认提交行为
+
+    var selectedRadio = document.querySelector('input[name="answer"]:checked');
+    if (!selectedRadio) {
+        alert('请选择一个答案！');
+        return;
+    }
+
+    var selectedAnswerId = selectedRadio.id;
+    var correctAnswer = selectedRadio.dataset.answer;
+    var feedbackElement = document.getElementById('feedback');
+    var skillExplainElement = document.getElementById('skillExplain');
+    var nextUrl = '{% url 'car:exam_questions' %}?le={{ current_le|add:1 }}';
+    if (selectedAnswerId === correctAnswer) {
+        feedbackElement.textContent = '回答正确！';
+        feedbackElement.style.display = 'block';
+        correctCount++;
+        localStorage.setItem('correctCount', correctCount);
+        updateCorrectCountDisplay();
+        setTimeout(function() {
+            window.location.href = nextUrl;
+        }, 500);
+    } else {
+        var radioButtons = document.querySelectorAll('input[type="radio"][name="answer"]');
+        radioButtons.forEach(function(radio) {
+            radio.disabled = true;
+        });
+        var correctAnswerElement = document.createElement('p');
+        correctAnswerElement.textContent = ' 错误！';
+        feedbackElement.appendChild(correctAnswerElement);
+        feedbackElement.style.display = 'block';
+        var skillExplainText = '正确答案是：' + correctAnswer + '。' + '{{ skill_explain }}';
+        skillExplainElement.textContent = skillExplainText;
+        skillExplainElement.style.display = 'block';
+    }
+});
+</script>
+</body>

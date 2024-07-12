@@ -1,0 +1,49 @@
+.button {
+    background-color: #dee2e6;
+}
+.button a {
+    color: black;
+}
+.part-3 {
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 20px;
+    background-color: rgb(247, 247,247);
+    padding: 5px;
+}
+        .part-3 p{
+            color: grey;
+        }
+        h3{
+            text-align: center;
+        }
+        .icon img{
+            width:20%;
+            margin-top: 30px;
+        }
+
+        #video-player {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            width: 800px;
+            height: 450px;
+            margin: 0 auto;
+            position: relative;
+            margin-top: 35px;
+        }
+        #video-player video {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        #video-nav {
+            background-color: white;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style-type: none;
+        }

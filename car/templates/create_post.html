@@ -1,0 +1,87 @@
+{% load static %}
+{% load custom %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布新帖子 - 驾考易通</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sequential.css' %}">
+    <style>
+        .post-form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 2px solid #000; /* 修改边框样式为黑色 */
+        }
+        .post-form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .post-form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .post-form-container form label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .post-form-container form input[type="text"],
+        .post-form-container form textarea {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #000; /* 修改输入框边框样式为黑色 */
+            border-radius: 5px;
+        }
+        .post-form-container form textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+        .post-form-container form button {
+            padding: 10px;
+            background-color: #000; /* 修改按钮背景色为黑色 */
+            color: #fff; /* 修改按钮文字颜色为白色 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .post-form-container form button:hover {
+            background-color: #333; /* 修改按钮鼠标悬停背景色为深灰色 */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="驾考易通Logo">
+        </div>
+        <div class="login">
+            <a href="{% url 'car:login' %}"></a>
+        </div>
+    </header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+
+    <div class="post-form-container">
+        <h2>发布新帖子</h2>
+        <form method="post" action="{% url 'car:add_post' %}">
+            {% csrf_token %}
+            <label for="title">标题</label>
+            <input type="text" id="title" name="title" required>
+            <label for="content">内容</label>
+            <textarea id="content" name="content" required></textarea>
+            <button type="submit">发布</button>
+        </form>
+    </div>
+</body>
+</html>

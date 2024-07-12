@@ -1,0 +1,119 @@
+{% load static %}
+{% load custom %}
+<head>
+    {% csrf_token %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>驾考宝典首页</title>
+</head>
+<link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static '/css/sequential.css' %}">
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static '/images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        <div class="login">
+            <a href="{% url 'car:login' %}"></a>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+    <div class="ques">
+    <p>{{ question.id }}/{{ id_max }}.&nbsp{{ question.question }}</p>
+    <img src="{{ question.url }}" alt="图片">
+    <form method="post" action="{% url 'car:submit_answer' question_id=question.pk %}">
+    {% csrf_token %}
+    {% for title, desc in paired_options.items %}
+        <div class="option">
+            <input type="radio" id="{{ forloop.counter|number_to_letter }}" name="answer" data-title="{{ question.title }}" data-answer="{{ question.answer }}" value="{{ forloop.counter|stringformat:'s' }}">
+            <label for="{{ forloop.counter|number_to_letter }}"> {{ title }}: {{ desc }}</label>
+        </div>
+    {% endfor %}
+     <button type="submit"  d="Submit">提交</button>
+</form>
+    <div id="feedback" style="display: none;"></div>
+    <div id="skillExplain" style="display: none;"></div>
+
+    {% if previous_question %}
+    <a href="{% url 'car:show_chapter2' question_id=previous_question.pk %}" class="no-underline">上一题</a>
+{% endif %}
+    {% if next_question %}
+    <a href="{% url 'car:show_chapter2' question_id=next_question.pk %}" class="no-underline">下一题</a>
+{% endif %}
+</div>
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var form = event.target;
+        var answerInput = form.querySelector('input[name="answer"]:checked');
+
+        if (!answerInput) {
+            alert('请选择一个答案！');
+            return;
+        }
+
+        console.log(answerInput.id);
+        console.log(answerInput.dataset.answer);
+        var selectedAnswerTitle = answerInput.id;
+        var correctAnswer = answerInput.dataset.answer;
+
+        var isCorrect = selectedAnswerTitle === correctAnswer;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', form.action, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+
+        xhr.onload = function() {
+            if (this.status === 200) {
+                var response = JSON.parse(this.responseText);
+                showFeedback(isCorrect, response.skill_explain, response.answer, response.next_url);
+            } else {
+                alert('提交答案时发生错误，请重试。');
+            }
+        };
+
+        xhr.send(new URLSearchParams(new FormData(form)).toString());
+    });
+
+    function showFeedback(isCorrect, skillExplain, answerText, nextUrl) {
+        var feedbackElement = document.getElementById('feedback');
+        var skillExplainElement = document.getElementById('skillExplain');
+
+        feedbackElement.innerHTML = '';
+        skillExplainElement.innerHTML = '';
+
+        var feedbackIcon = document.createElement('i');
+        feedbackIcon.classList.add('fas');
+        feedbackIcon.style.color = isCorrect ? 'green' : 'red';
+        feedbackElement.appendChild(feedbackIcon);
+
+        if (isCorrect) {
+            feedbackIcon.classList.add('fa-check-circle');
+            feedbackElement.textContent = ' 正确！';
+            setTimeout(function() {
+                window.location.href = nextUrl;
+            }, 500);
+        } else {
+            feedbackIcon.classList.add('fa-times-circle');
+            feedbackElement.textContent = ' 错误！';
+            skillExplainElement.textContent = '正确答案是：' + answerText + '。' + skillExplain;
+            skillExplainElement.style.display = 'block';
+        }
+
+        feedbackElement.style.display = 'block';
+    }
+</script>
+
+</body>
+
+</html>

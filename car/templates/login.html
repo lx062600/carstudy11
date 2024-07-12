@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>驾考易通 - 登录</title>
+
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>驾考易通 - 登录</h2>
+        <form action="/car/login/" method="post">
+            {% csrf_token %}
+            <label for="username"><b>用户名</b></label>
+            <input type="text" placeholder="请输入用户名" name="username" required>
+            <label for="pwd"><b>密码&nbsp&nbsp&nbsp</b></label>
+            <input type="password" placeholder="请输入密码" name="password" required>
+            <button type="submit">登录</button>
+            <p>若不存在该用户，默认注册并登录</p>
+            {% if error_message %}
+    <p style="color:red;">{{ error_message }}</p>
+{% endif %}
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>驾考宝典首页</title>
+</head>
+<link rel="stylesheet" href="{% static 'css/ke1.css' %}">
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        <div class="login">
+            <a href="{% url 'car:login' %}"></a>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <div class="part-1">
+            <h3>成都市2024科目四考试</h3>
+            <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp科目四，又称科目四理论考试、驾驶员理论考试，是机动车驾驶证考核的一部分。公安部123号令实施后，科目三考试分为两项内容，除了路考，增加了安全文明驾驶考试，俗称“科目四”，考量“车德”。因为这个考试在科目三之后进行，所以大家都习惯称之为科目四考试。实际的官方说法中没有科目四一说。</p>
+        </div>
+        <div class="box">
+            <ul class="item1">
+            <li class="icon">
+                <a href="{% url 'car:sequential' %}" style="text-decoration: none;color: black">
+                    <img src="{% static 'images/icon7.png' %}" alt=""><br><br>
+                    <span class="title">顺序练习</span></a>
+            </li>
+            <li class="icon">
+                <a href="{% url 'car:random_question' %}" style="text-decoration: none;color: black">
+                    <img src="{% static 'images/icon8.png' %}" alt=""><br><br>
+                    <span class="title">随机练习</span></a>
+            </li>
+            <li class="icon">   <a href="{% url 'car:show_chapter' %}" style="text-decoration: none;color: black">
+                <img src="{% static 'images/icon9.png' %}" alt=""><br><br>
+                <span class="title">章节练习</span>
+            </li>
+            <li class="icon">
+                <img src="{% static 'images/icon10.png' %}" alt=""><br><br>
+                <span class="title">专项练习</span>
+            </li>
+            <li class="icon">   <a href="{% url 'car:exam_questions' %}" style="text-decoration: none;color: black">
+                <img src="{% static 'images/icon11.png' %}" alt=""><br><br>
+                <span class="title">模拟考试</span>
+            </li>
+            <li class="icon">   <a href="{% url 'car:pk' %}" style="text-decoration: none;color: black">
+                <img src="{% static 'images/icon12.png' %}" alt=""><br><br>
+                <span class="title">好友pk</span>
+            </li>
+            </ul>
+        </div>
+    </div>
+</body>

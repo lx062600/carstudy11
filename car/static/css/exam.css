@@ -1,0 +1,51 @@
+.active {
+    background-color: gray; /* 或者其他您想要的颜色 */
+    color: white;
+}
+#question-list {
+    float: right;
+    margin-right: 10%;
+    text-align: center;
+    margin-top: 30px;
+}
+.timu{
+    width: 50%;
+    margin-left: 20%;
+    overflow: hidden;
+    float: left;
+    margin-top: 30px;
+
+}
+.timu img{
+    width: 300px;
+    height: 200px;
+}
+#Submit {
+    background-color: gray;
+    color: white;
+}
+button {
+    margin-right: 20px;
+    text-decoration: none;
+    color: black;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    color:black;
+    border: none;
+    width: 90px;
+    font-size: 18px;
+    height: 40px;
+    margin-top: 10px;
+    }
+.option {
+    margin-bottom: 10px;
+    color: rgb(105,105,105);
+}
+.option label {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

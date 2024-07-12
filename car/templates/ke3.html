@@ -1,0 +1,105 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>驾考宝典科目三</title>
+    <link rel="stylesheet" href="{% static 'css/kesan.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'js/ke3.js' %}">
+</head>
+<body>
+<header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        <div class="login">
+            <a href="{% url 'car:login' %}"></a>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <div class="part-3">
+            <h3>成都市2024科目三考试</h3>
+            <p>小车科目三考试又叫大路考，您需要掌握包括上车准备、直线行驶、百米加减档、灯光模拟考试等17项科目三考试技巧，满分为100分，90分及以上为及格。更多内容请看小车C1科目三考试内容及合格标准。</p>
+        </div>
+        <div>
+            <nav id="video-nav">
+                <UL>
+                    <li class="button"><a href="#" data-video-id="video1">模拟夜间灯光使用</a></li>
+                    <li class="button"><a href="#" data-video-id="video2">上车准备</a></li>
+                    <li class="button"><a href="#" data-video-id="video3">起步</a></li>
+                    <li class="button"><a href="#" data-video-id="video4">路口左转弯</a></li>
+                    <li class="button"><a href="#" data-video-id="video5">路口右转弯</a></li>
+                    <li class="button"><a href="#" data-video-id="video6">变更车道</a></li>
+                    <li class="button"><a href="#" data-video-id="video7">通过路口</a></li>
+                    <li class="button"><a href="#" data-video-id="video8">直线行驶</a></li>
+                    <li class="button"><a href="#" data-video-id="video9">通过公共汽车站</a></li>
+                    <li class="button"><a href="#" data-video-id="video10">通过人行横道</a></li>
+                    <li class="button"><a href="#" data-video-id="video11">通过学校区域</a></li>
+                    <li class="button"><a href="#" data-video-id="video12">超车</a></li>
+                    <li class="button"><a href="#" data-video-id="video13">掉头</a></li>
+                    <li class="button"><a href="#" data-video-id="video14">靠边停车</a></li></UL>
+            </nav>
+            <div id="video-player">
+                <video controls>
+                    <source src="http://hw-jiakao-video.jiakaobaodian.com/knowhere/2021/03/09/861de9d5d0644534a521f846ee8ca62b.middle.mp4?auth_key=1718621094-26a9420fe790486a86d25854dca31c67-0-523c81667b6c3b07dbd8631190e01ce8" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+    </div> <script>
+document.getElementById('video-nav').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    var link = event.target;
+    if(link.tagName.toLowerCase() !== 'a') return;
+
+    var videoId = link.dataset.videoId;
+
+    loadVideo(videoId);
+});
+
+function loadVideo(videoId) {
+    var player = document.querySelector('#video-player video');
+    if (!player) {
+        player = document.createElement('video');
+        player.controls = true;
+        document.getElementById('video-player').appendChild(player);
+    }
+
+    var videoSources = {
+        'video1': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2021/03/09/861de9d5d0644534a521f846ee8ca62b.middle.mp4?auth_key=1718680340-2d029f0c26b44bc6bd83203b3bd9fc32-0-4522863b179498b3a4bf2d7781ea482e',
+        'video2': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2021/03/10/10ff2c3419484d31a3ae559eac86d422.middle.mp4?auth_key=1718680360-3a172c6e273e42af988ead7805af8c3f-0-fce1991d71716a87c7735e6fe9c25b70',
+        'video3': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2021/03/09/48719d0b65654530a971165cfddeb6b4.middle.mp4?auth_key=1718680424-4fadb00d99e64e2499156f69f6662a42-0-00b739fd4fd4b85d65f23e2a36cd52f1',
+        'video4': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/ec3d7725349748a282e010e2d41ca4c9.middle.mp4?auth_key=1718680437-39025b0c78ae427b8b7067353802c916-0-305ce776195c9f3684f7cbc52c564133',
+        'video5': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/65d5b1136a02453d8d709b5783dabaf6.middle.mp4?auth_key=1718680454-bd9e6239f97a4497b90e4ee349be5ed1-0-5e30478762ea633d7edc2dc4842ed620',
+        'video6': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/1478ec1b040445d5ab47b04ffcf7d5b7.middle.mp4?auth_key=1718680469-e39bd312f785491a8420599863755add-0-05509acad38525d14063883533cc6472',
+        'video7': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/c8d9d62b34e64bf49149b7b0051a5b74.middle.mp4?auth_key=1718680481-1c96b997fa6e4fd99976f247a6698596-0-8dbb28f8759f31f841120bf07c48888a',
+        'video8': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/81e77096a8e74c53983e72f21cc9ad3d.middle.mp4?auth_key=1718680497-d26a6977f8774271b18312ca9df58726-0-6295dd33461c768431c4e40c56202ccc',
+        'video9': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/6d368880b0984bb5b1160268cac8adb0.middle.mp4?auth_key=1718680510-e258342d5bbc49efa77816dd8b3f8441-0-ad6bee02170f07e9ed8b5a319b6a91ba',
+        'video10': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/1ee7fe78af764ff3a2246257defc8a96.middle.mp4?auth_key=1718680522-9c00505afd7348d9b03eea3859e7aad6-0-d4b22c2994cb802ae9c289040ea66d8e',
+        'video11': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/13184915405b44fd82b8fd35001bb74b.middle.mp4?auth_key=1718680546-bc6012efe493407a9937d1e751bd1d37-0-67c54400dc90192e3320168aede65f88',
+        'video12': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/32052453c5b246038137953b9fe683db.middle.mp4?auth_key=1718680559-60d807fabd1f4f1da1d7253f29d02a6b-0-f005ca9553b52bc726cf8431e4d19740',
+        'video13': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/ee8caa2b697c4fa4a30e38cbcf50e907.middle.mp4?auth_key=1718680574-1defe3443a6f40729c320e5f65aa9215-0-948b3f0061bd2dc22aba7e4166ee5735',
+        'video14': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/25/cfd1a9358c9e45a78706a953058d6567.middle.mp4?auth_key=1718680587-500fe5c6b0ae45eca38c12c405ad1620-0-8fb6de686fedc02af225a1fc76974228',
+    };
+    if (videoSources.hasOwnProperty(videoId)) {
+        player.src = videoSources[videoId];
+        player.load();
+        player.play();
+    } else {
+        console.error('视频URL未定义:', videoId);
+    }
+}
+    </script>
+</body>
+</html>

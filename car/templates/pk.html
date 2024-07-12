@@ -1,0 +1,71 @@
+{% load static %}
+{% load custom %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/exam.css' %}">
+<style>
+    .timu img {
+        margin-right: 0;
+        width: 300px;
+        height:200px;
+    }
+    .desc {
+        margin-left: 10px;
+    }
+    .timu {
+        width:auto;
+        min-width:60%;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #Submit{
+        margin: 10px;
+    }
+</style>
+<div class="logo">
+            <img src="{% static '/images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        <div class="login">
+            <a href="{% url 'car:login' %}"></a>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+{% if question %}
+    <div class="timu">
+        <p>{{ current_le }} / {{ total_questions }}.{{ question.question }}</p>
+        <img src="{{ question.url }}" alt="">
+    <br>
+        <div class="desc" style="float: left">
+            {% for title, desc in options.items %}
+                <div class="option">
+                   <input type="radio" id="{{ forloop.counter|number_to_letter }}" data-answer="{{ question_answer }}" name="answer">
+                   <label for="{{ forloop.counter|number_to_letter }}">{{ title }}: {{ desc }}</label>
+             </div>
+             {% endfor %}
+        </div>
+    <br>
+    <img style="width:50px;height:50px;" src="{% static '/images/icon7.png' %}">
+        <div class="desc" style="float: right">
+            {% for title, desc in options.items %}
+                <div class="option">
+                    <input type="radio" id="{{ forloop.counter|number_to_letter }}" data-answer="{{ question_answer }}" name="answer">
+                    <label for="{{ forloop.counter|number_to_letter }}">{{ title }}: {{ desc }}</label>
+                </div>
+            {% endfor %}
+        </div><br>
+        <button id="Submit">提交</button>
+        <div id="feedback" style="display: none;"></div>
+        <div id="skillExplain" style="display: none;"></div>
+        <div id="question-navigation">
+            <button onclick="goToQuestion({{ prev_le }})">上一题</button>
+            <button onclick="goToQuestion({{ next_le }})">下一题</button>
+        </div>
+    </div>
+{%  endif %}

@@ -1,0 +1,284 @@
+{% load static %}
+{% load custom %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论坛</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sequential.css' %}">
+    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{% static 'js/forum.js' %}"></script>
+    <style>
+        /* 整体容器样式 */
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .forum-post-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .forum-post {
+            margin-bottom: 10px;
+        }
+
+        .forum-post h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .forum-post p {
+            color: #666;
+        }
+
+        .forum-post-content {
+            margin-top: 15px;
+        }
+
+        .forum-post-content p {
+            margin: 0;
+        }
+
+        .forum-post-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #999;
+        }
+
+        .forum-post-details a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .forum-post-details a:hover {
+            text-decoration: underline;
+        }
+
+        .forum-post-details span {
+            margin-right: 10px;
+        }
+
+        .glyphicon {
+            margin-right: 5px;
+        }
+
+        .comment-container {
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .comment-container p {
+            margin: 0;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .input-container {
+            margin-top: 10px;
+        }
+
+        .input-container label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group input[type="text"] {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .input-group input[type="submit"] {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        .input-group input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .comment-box {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .comment-content {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+
+        .comment-date {
+            margin: 0;
+            font-size: 12px;
+            color: #999;
+        }
+        .bottom-right-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .bottom-right-icon a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .bottom-right-icon a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static '/images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        <div class="login">
+            {% if request.user.is_authenticated %}
+    <p>当前登录用户：{{ request.user.username }}</p>
+{% else %}
+    <p>用户未登录</p>
+{% endif %}
+        </div>
+    </header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        {% for post in posts %}
+        <div class="forum-post-container">
+            <div class="forum-post">
+                <h3>{{ post.title }}</h3>
+                <p>作者：<strong>{{ post.author }}</strong></p>
+                <div class="forum-post-content"><p>{{ post.content }}</p></div>
+            </div>
+            <div>
+                <span><a href="/{{ post.author }}/ ">{{ post.author }}</a></span>
+                <span>发布于&nbsp;&nbsp;{{ post.created_at|date:'Y-m-d' }}</span>
+               
+            </div>
+            <div>
+                <div>
+
+                </div>
+                    <div class="comment-container">
+                        <div>
+                            <p>发表评论</p>
+                        <div class="input-container">
+                        <label for="simple-input">输入内容:</label>
+                        <div class="input-group">
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="post_id" value="{{ post.id }}">
+                                <input type="text" id="comment_text" name="comment_text" placeholder="在这里输入...">
+                                <input type="submit" value="提交">
+                            </form>
+                        </div>
+                    </div>
+                        {% for comment in data_list %}
+                            {% if comment.post_id == post.id %}
+                                <div class="comment-box">
+                                    <p class="comment-content">{{ comment.content }}</p>
+                                    <p class="comment-date">{{ comment.created_at }}</p>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- 右下角图标 -->
+    <div class="bottom-right-icon">
+        <a href="{% url 'car:add_post' %}"><span class="glyphicon glyphicon-plus">发布一个新帖子</span></a>
+    </div>
+<script>
+document.getElementById('btn_submit').addEventListener('click', () => {
+    const comment = document.getElementById('comment_text').value;
+
+    if (!comment) {
+        document.getElementById('response-msg').textContent = '评论内容不能为空';
+        return;
+    }
+
+    fetch('/submit-comment/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: 'comment=' + encodeURIComponent(comment),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            document.getElementById('response-msg').textContent = data.message;
+            document.getElementById('simple-input').value = '';
+        } else {
+            document.getElementById('response-msg').textContent = '提交失败：' + data.message;
+        }
+    })
+    .catch(error => {
+        document.getElementById('response-msg').textContent = '提交失败';
+        console.error('错误:', error);
+    });
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+</body>
+</html>

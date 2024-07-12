@@ -1,0 +1,125 @@
+{% load static %}
+{% load custom %}
+<head>
+    {% csrf_token %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>驾考宝典首页</title>
+</head>
+<link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static '/css/sequential.css' %}">
+<link rel="stylesheet" href="{% static '/css/index.css' %}">
+<style>
+.chapter-container {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 10%; /* Add margin to leave space on both sides */
+}
+
+.chapter {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 20px;
+    width: 48%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+    .part-1 {
+        width: 60%;
+        margin-left: 20%;
+        margin-top: 20px;
+        background-color: rgb(247, 247,247);
+        padding: 5px;
+    }
+    .part-1 p{
+        color: grey;
+    }
+.chapter h4 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #343a40;
+}
+
+.chapter ul {
+    list-style: none;
+    padding: 0;
+}
+
+.chapter ul li {
+    margin-bottom: 10px;
+}
+
+.chapter ul li a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.chapter ul li a:hover {
+    color: #0056b3;
+}
+
+</style>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{% static '/images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        <div class="login">
+            <a href="{% url 'car:login' %}"></a>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+    <div class="part-1">
+        <h3>成都市2024科目一考试</h3>
+        <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp科目一，又称科目一理论考试、驾驶员理论考试，是机动车驾驶证考核的一部分 。根据《机动车驾驶证申领和使用规定》，考试内容包括驾车理论基础、道路安全法律法规、地方性法规等相关知识。考试形式为上机考试，100道题，90分及以上过关。</p>
+    </div>
+    <div class="chapter-container">
+        <div class="chapter">
+            <h4>第 1 章 驾驶证和机动车管理规定</h4>
+            <ul>
+                <li><a href="{% url 'car:chapter_se1' %}">顺序练习</a></li>
+                <li><a href="{% url 'car:show_chapterRa' %}">随机练习</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h4>第 2 章 道路通行条件及通行规定</h4>
+            <ul>
+                <li><a href="{% url 'car:chapter_se2' %}">顺序练习</a></li>
+                <li><a href="#">随机练习</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h4>第 3 章 道路交通安全违法行为及处罚</h4>
+            <ul>
+                <li><a href="#">顺序练习</a></li>
+                <li><a href="#">随机练习</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h4>第 4 章 道路交通事故处理相关规定</h4>
+            <ul>
+                <li><a href="#">顺序练习</a></li>
+                <li><a href="#">随机练习</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h4>第 5 章 机动车基础知识</h4>
+            <ul>
+                <li><a href="#">顺序练习</a></li>
+                <li><a href="#">随机练习</a></li>
+            </ul>
+        </div>
+    </div>
+</body>

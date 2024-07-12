@@ -1,0 +1,87 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>驾考宝典科目二</title>
+    <link rel="stylesheet" href="{% static 'css/kesan.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'js/ke3.js' %}">
+</head>
+<body>
+<header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="驾考宝典Logo">
+        </div>
+        <div class="login">
+            <a href="{% url 'car:login' %}"></a>
+        </div>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="{% url 'car:keyi' %}">科一</a></li>
+            <li><a href="{% url 'car:keer' %}">科二</a></li>
+            <li><a href="{% url 'car:kesan' %}">科三</a></li>
+            <li><a href="{% url 'car:kesi' %}">科四</a></li>
+            <li><a href="{% url 'car:forum' %}">论坛</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <div class="part-3">
+            <h3>成都市2024科目二考试</h3>
+            <p>小车科目二考试又叫小路考，包括倒车入库、侧方停车、坡道定点、直角拐弯、曲线行驶等5个科目二考试技巧项目，满分100分，80分及以上合格，更多内容请看小车C1科目二考试内容及合格标准。</p>
+        </div>
+        <div>
+            <nav id="video-nav">
+                <UL>
+                    <li class="button"><a href="#" data-video-id="video1">直角转弯</a></li>
+                    <li class="button"><a href="#" data-video-id="video2">S弯</a></li>
+                    <li class="button"><a href="#" data-video-id="video3">坡道定点停车与起步</a></li>
+                    <li class="button"><a href="#" data-video-id="video4">倒车入库</a></li>
+                    <li class="button"><a href="#" data-video-id="video5">侧方位停车</a></li></UL>
+            </nav>
+            <div id="video-player">
+                <video controls>
+                    <source src="https://chejiahao.m.autohome.com.cn/info/6175778" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+<script>
+   document.getElementById('video-nav').addEventListener('click', function(event) {
+    event.preventDefault();
+
+    var link = event.target;
+    if(link.tagName.toLowerCase() !== 'a') return;
+
+    var videoId = link.dataset.videoId;
+
+    loadVideo(videoId);
+});
+
+function loadVideo(videoId) {
+    var player = document.querySelector('#video-player video');
+    if (!player) {
+        player = document.createElement('video');
+        player.controls = true;
+        document.getElementById('video-player').appendChild(player);
+    }
+
+    var videoSources = {
+        'video1': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/22/573ab743e6aa4c84a3ac4f2b6351f1e5.middle.mp4?auth_key=1718683372-01dafe28ca4b4dd5abe3d7e9efe10303-0-76659283b82769576db22f2555140382',
+        'video2': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/22/573ab743e6aa4c84a3ac4f2b6351f1e5.middle.mp4?auth_key=1718683372-01dafe28ca4b4dd5abe3d7e9efe10303-0-76659283b82769576db22f2555140382',
+        'video3': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/22/5fd4b73a18ac4be982b7c73b406c8104.middle.mp4?auth_key=1718680240-273bd68c395643c09f5122275f77bf62-0-f736b79e2942c64df19866bf888b0a32',
+        'video4': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/22/8dc40feea996466fa05f5403cd3f1d14.middle.mp4?auth_key=1718680108-b8e999d971664366a5d09dffb07395ee-0-505949c13c6921106e9679ddcb5e263a',
+        'video5': 'http://hw-jiakao-video.jiakaobaodian.com/knowhere/2023/08/22/573ab743e6aa4c84a3ac4f2b6351f1e5.middle.mp4?auth_key=1718683372-01dafe28ca4b4dd5abe3d7e9efe10303-0-76659283b82769576db22f2555140382',
+    };
+    if (videoSources.hasOwnProperty(videoId)) {
+        player.src = videoSources[videoId];
+        player.load();
+        player.play();
+    } else {
+        console.error('视频URL未定义:', videoId);
+    }
+}
+</script>
+</body>
+</html>
